@@ -6,7 +6,7 @@ from firedrake import PETSc
 
 def solve_problem(solver_options, n_iter, print_iterations=False):
     mesh = fd.UnitSquareMesh(20, 20)
-    mh = fd.MeshHierarchy(mesh, 3)
+    mh = fd.MeshHierarchy(mesh, 5)
     mesh = mh[-1]  # Finest mesh
     V = fd.FunctionSpace(mesh, "CG", 1)
     PETSc.Sys.Print(f"DOFs: {V.dim()}")
