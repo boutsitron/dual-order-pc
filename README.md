@@ -5,7 +5,7 @@ This repository contains the implementation of a preconditioner capable of handl
 ## Contents
 
 - **`dual_order_pc.py`**: Implements the dual-order preconditioner logic to handle FOM and ROM. This file contains the main functionality of the preconditioner.
-- **`simple_mfe_FOM.py`**: Provides a Minimum Failing Example (MFE) to demonstrate the application of the FOM path of the dual-order preconditioner in a minimal finite element setup. Currently, the FOM path of the preconditioner is less performant compared to classic direct solvers with LU factorization and/or Firedrake's AssembledPC preconditioner.
+- **`simple_mfe_FOM.py`**: Provides a Minimum Failing Example (MFE) to demonstrate the application of the FOM mode of the dual-order preconditioner in a minimal finite element setup. Currently, the FOM mode of the preconditioner is less performant compared to classic direct solvers with LU factorization and/or Firedrake's AssembledPC preconditioner.
 
 ## Requirements
 
