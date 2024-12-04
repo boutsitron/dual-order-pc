@@ -3,12 +3,10 @@
 from __future__ import absolute_import, print_function
 
 import gc
-import logging
 
 from firedrake import PCBase
 from firedrake.assemble import get_assembler
 from firedrake.petsc import PETSc
-from pyadjoint import no_annotations
 
 
 def log_msg(message: str) -> None:
@@ -53,7 +51,6 @@ class DualOrderPC(PCBase):
         self.KInv.setOptionsPrefix("dual_order_pc_fom_")  # Full space solver prefix
         self._configure_ksp(self.KInv)
 
-    @no_annotations
     def _configure_ksp(self, ksp: PETSc.KSP) -> None:
         """Configure KSP solvers with settings optimized for their respective system sizes.
 
@@ -90,7 +87,6 @@ class DualOrderPC(PCBase):
         """Destructor to ensure PETSc cleanup"""
         self._destroy()
 
-    @no_annotations
     def initialize(self, pc: PETSc.PC) -> None:
         """Initialize the preconditioner
 
@@ -134,7 +130,6 @@ class DualOrderPC(PCBase):
         PETSc.garbage_cleanup()  # type: ignore[attr-defined]
         gc.collect()
 
-    @no_annotations
     def update(self, pc: PETSc.PC) -> None:
         """Update the preconditioner
 
@@ -165,7 +160,6 @@ class DualOrderPC(PCBase):
         self.ndofs = K.getSize()[0]
         self._update_ksp_solver(K, self.KInv)
 
-    @no_annotations
     def apply(self, pc: PETSc.PC, X: PETSc.Vec, Y: PETSc.Vec) -> None:
         """Apply the preconditioner
 
@@ -183,7 +177,6 @@ class DualOrderPC(PCBase):
         else:
             self._apply_fom(X, Y)
 
-    @no_annotations
     # @track_memory_usage
     def _apply_rom(self, Z: PETSc.Mat, X: PETSc.Vec, Y: PETSc.Vec) -> None:
         """Apply ROM-specific preconditioner logic"""
@@ -204,7 +197,6 @@ class DualOrderPC(PCBase):
         tmp_Yp.destroy()
         # X.destroy()
 
-    @no_annotations
     def _apply_fom(self, X: PETSc.Vec, Y: PETSc.Vec) -> None:
         """Apply ROM-specific preconditioner logic"""
         self.KInv.solve(X, Y)  # type: ignore[attr-defined]
@@ -223,7 +215,6 @@ class DualOrderPC(PCBase):
             "applyTranspose not implemented for custom POD-ROM PC"
         )
 
-    @no_annotations
     def _update_ksp_solver(self, K: PETSc.Mat, ksp: PETSc.KSP):
         """Update KSP solver with new matrix"""
         ksp.reset()  # type: ignore[attr-defined]
@@ -233,14 +224,12 @@ class DualOrderPC(PCBase):
 
         PETSc.garbage_cleanup(comm=K.comm)
 
-    @no_annotations
     def _assemble_jacobian(self) -> PETSc.Mat:
         """Assemble the jacobian K using the current projection"""
         # Reuse existing tensor but return the PETSc handle
         self._assemble_K(tensor=self.K)
         return self.K.petscmat
 
-    @no_annotations
     def _assemble_projected_jacobian(self, Z: PETSc.Mat) -> PETSc.Mat:
         """Assemble the projected matrix Kp from the full matrix K using the current projection matrix Z."""
         # Assume self.assembleK() exists and updates self.K
@@ -252,7 +241,6 @@ class DualOrderPC(PCBase):
 
         return Kp
 
-    @no_annotations
     def _get_projection_matrix(self, pc: PETSc.PC) -> PETSc.Mat:
         """Get the projection matrix
 
