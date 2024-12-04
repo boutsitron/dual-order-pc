@@ -39,4 +39,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 
 ## Acknowledgments
 
-Special thanks to the Firedrake project developers for their robust FEM framework and to all contributors of this repository.
+Special thanks to the Firedrake project developers for their robust FEM framework and to Julian Andrej, whose [work](https://github.com/JuLuSi/mor) inspired this preconditioner.
