@@ -72,7 +72,7 @@ class DualOrderPC(PCBase):
 
         if prefix == "dual_order_pc_rom_":
             # ROM: Small dense system - use sequential direct solver
-            pc.setFactorSolverType("petsc")  # Sequential solver, good for small systems
+            pc.setFactorSolverType("superlu_dist")  # Good for small dense systems
 
         elif prefix == "dual_order_pc_fom_":
             # FOM: Large sparse system - use MUMPS with optimizations
