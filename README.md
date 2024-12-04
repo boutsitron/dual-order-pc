@@ -30,7 +30,7 @@ This project is developed using the Firedrake library. To use or modify the file
    python simple_mfe_FOM.py
    ```
 
-   or the MFE in parallel mode:
+   or in parallel mode:
    ```bash
    mpiexec -np 8 python simple_mfe_FOM.py
    ```
