@@ -5,8 +5,8 @@ from firedrake import PETSc
 
 
 def solve_problem(solver_options, n_iter, print_iterations=False):
-    mesh = fd.UnitSquareMesh(20, 20)
-    mh = fd.MeshHierarchy(mesh, 5)
+    mesh = fd.UnitSquareMesh(70, 70)
+    mh = fd.MeshHierarchy(mesh, 6)
     mesh = mh[-1]  # Finest mesh
     V = fd.FunctionSpace(mesh, "CG", 1)
     PETSc.Sys.Print(f"DOFs: {V.dim()}")
@@ -34,6 +34,8 @@ def solve_problem(solver_options, n_iter, print_iterations=False):
 
 # Classic solver options (direct solve)
 solver_options_classic = {
+    "snes_rtol": 1e-6,
+    "snes_atol": 1e-7,
     "ksp_type": "preonly",
     "pc_type": "lu",
     "pc_factor_mat_solver_type": "mumps",
@@ -44,6 +46,8 @@ solver_options_classic = {
 
 # AssembledPC solver options
 solver_options_assembled = {
+    "snes_rtol": 1e-6,
+    "snes_atol": 1e-7,
     "mat_type": "matfree",
     "ksp_type": "preonly",
     "pc_type": "python",
@@ -75,14 +79,14 @@ solver_options_dual_order_pc = {
 
 n_iter = 10
 
-# Solve with classic options
-PETSc.Sys.Print("\nSolving with classic options:")
-solve_problem(solver_options_classic, n_iter, print_iterations=True)
+# # Solve with classic options
+# PETSc.Sys.Print("\nSolving with classic options:")
+# solve_problem(solver_options_classic, n_iter, print_iterations=True)
 
 # Solve with AssembledPC options
 PETSc.Sys.Print("\nSolving with AssembledPC:")
 solve_problem(solver_options_assembled, n_iter, print_iterations=True)
 
-# Solve with DualOrderPC options
-PETSc.Sys.Print("\nSolving with DualOrderPC:")
-solve_problem(solver_options_dual_order_pc, n_iter, print_iterations=True)
+# # Solve with DualOrderPC options
+# PETSc.Sys.Print("\nSolving with DualOrderPC:")
+# solve_problem(solver_options_dual_order_pc, n_iter, print_iterations=True)

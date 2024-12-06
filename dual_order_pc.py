@@ -217,7 +217,7 @@ class DualOrderPC(PCBase):
 
     def _update_ksp_solver(self, K: PETSc.Mat, ksp: PETSc.KSP):
         """Update KSP solver with new matrix"""
-        ksp.reset()  # type: ignore[attr-defined]
+        # ksp.reset()  # type: ignore[attr-defined]
         ksp.setOperators(K, K)  # type: ignore[attr-defined]
         ksp.setConvergenceHistory()  # type: ignore[attr-defined]
         ksp.setFromOptions()  # type: ignore[attr-defined]
